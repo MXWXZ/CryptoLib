@@ -27,3 +27,13 @@
 *.exe
 *.out
 *.app
+
+/.vs/*
+/ipch/*
+*.tlog
+*.lastbuiltstate
+*.pdb
+*.log
+*.db
+*.iobj
+*.ipdb
