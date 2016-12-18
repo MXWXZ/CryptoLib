@@ -19,6 +19,12 @@
     <Filter Include="源文件\Hash">
       <UniqueIdentifier>{38cd699d-1582-4945-b2f8-dc79495c5dbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Convert">
+      <UniqueIdentifier>{cf2c1691-30f5-47c0-b7c2-80ce9415c04a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Convert">
+      <UniqueIdentifier>{e5248315-07fa-43c0-92a6-b7906a7c2ea8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -33,16 +39,28 @@
     <ClInclude Include="Include\targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\md5.h">
+    <ClInclude Include="Include\Hash\md5.h">
       <Filter>头文件\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Hash\sha1.h">
+      <Filter>头文件\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Convert\convert.h">
+      <Filter>头文件\Convert</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Include\md5.cpp">
+    <ClCompile Include="Include\Hash\md5.cpp">
       <Filter>源文件\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Hash\sha1.cpp">
+      <Filter>源文件\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Convert\convert.cpp">
+      <Filter>源文件\Convert</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

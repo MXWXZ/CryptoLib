@@ -25,4 +25,7 @@ SOFTWARE.
 
 #include "stdafx.h"
 
-#include "md5.h"
+#include "Convert/convert.h"
+
+#include "Hash/md5.h"
+#include "Hash/sha1.h"

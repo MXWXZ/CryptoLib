@@ -12,8 +12,17 @@
 // TODO:  在此处引用程序需要的其他头文件
 
 #define _CRT_SECURE_NO_WARNINGS
+#pragma warning(disable:4244)
+#pragma warning(disable:4309)
 
 #include "windows.h"
 #include <cstdio>
 #include "tchar.h"
 #include <cstring>
+#include <string>
+#include <cstdint>
+#include <sstream>
+#include <iomanip>
+#include <fstream>
+
+#include "CryptoLib.h"

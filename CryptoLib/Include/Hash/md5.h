@@ -6,8 +6,8 @@
 namespace CryptoLib {
 class Hash_MD5 {
 public:
-	static LPTSTR Generate(LPCTSTR dat, LPTSTR res);
-	static LPTSTR GenerateFile(LPCTSTR filename, LPTSTR res);
+	static LPCTSTR Generate(LPCTSTR dat);
+	static LPCTSTR GenerateFile(LPCTSTR filename);
 
 protected:
 	typedef unsigned int MD5_u32;

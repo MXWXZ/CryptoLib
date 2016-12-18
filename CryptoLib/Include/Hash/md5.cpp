@@ -222,21 +222,19 @@ char Hash_MD5::hb2hex(MD5_uCH hb) {
 	return hb < 10 ? _T('0') + hb : hb - 10 + _T('a');
 }
 
-LPTSTR Hash_MD5::Generate(LPCTSTR dat, LPTSTR res) {
-	const DWORD cCh = WideCharToMultiByte(CP_ACP, 0, dat, -1, NULL, 0, NULL, NULL);
-	char* str = new char[cCh];
-	ZeroMemory(str, cCh * sizeof(str[0]));
-	WideCharToMultiByte(CP_ACP, 0, dat, -1, str, cCh, NULL, NULL);
+LPCTSTR Hash_MD5::Generate(LPCTSTR dat) {
 	MD5_uCH out[16];
+	char* str = Convert::WStr2Str(dat);
 	md5bin(str, strlen(str), out);
+	std::string res;
 	for (size_t i = 0; i < 16; ++i) {
-		res[i * 2] = hb2hex(out[i] >> 4);
-		res[i * 2 + 1] = hb2hex(out[i]);
+		res.push_back(hb2hex(out[i] >> 4));
+		res.push_back(hb2hex(out[i]));
 	}
-	return res;
+	return Convert::CWStr2TStr(res.c_str());
 }
 
-LPTSTR Hash_MD5::GenerateFile(LPCTSTR filename, LPTSTR res) {
+LPCTSTR Hash_MD5::GenerateFile(LPCTSTR filename) {
 	FILE* file = _tfopen(filename, _T("rb"));
 	MD5_CTX c;
 	MD5_Init(&c);
@@ -246,11 +244,12 @@ LPTSTR Hash_MD5::GenerateFile(LPCTSTR filename, LPTSTR res) {
 	while ((len = fread(buff, sizeof(char), BUFSIZ, file)) > 0)
 		MD5_Update(&c, buff, len);
 	MD5_Final(out, &c);
+	std::string res;
 	for (size_t i = 0; i < 16; ++i) {
-		res[i * 2] = hb2hex(out[i] >> 4);
-		res[i * 2 + 1] = hb2hex(out[i]);
+		res.push_back(hb2hex(out[i] >> 4));
+		res.push_back(hb2hex(out[i]));
 	}
 	fclose(file);
-	return res;
+	return Convert::CWStr2TStr(res.c_str());
 }
 }
