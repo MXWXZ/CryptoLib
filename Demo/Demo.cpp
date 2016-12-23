@@ -25,6 +25,16 @@ int main()
 	_tprintf(_T("	SHA1值：%s\n"), Hash_SHA1::Generate(str));				//默认返回小写
 	_tprintf(_T("	本程序SHA1：%s\n"), Hash_SHA1::GenerateFile(_T("Demo.exe")));	//文件MD5
 	_tprintf(_T("\n"));
+	//SHA1
+	_tprintf(_T("	SHA256 长度：64\n"));
+	_tprintf(_T("	SHA256值：%s\n"), Hash_SHA256::Generate(str));				//默认返回小写
+	_tprintf(_T("	本程序SHA256：%s\n"), Hash_SHA256::GenerateFile(_T("Demo.exe")));	//文件MD5
+	_tprintf(_T("\n"));
+	//SHA1
+	_tprintf(_T("	SHA512 长度：128\n"));
+	_tprintf(_T("	SHA512值：%s\n"), Hash_SHA512::Generate(str));				//默认返回小写
+	_tprintf(_T("	本程序SHA512：%s\n"), Hash_SHA512::GenerateFile(_T("Demo.exe")));	//文件MD5
+	_tprintf(_T("\n"));
 	getchar();
     return 0;
 }

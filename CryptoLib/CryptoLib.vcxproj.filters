@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Include\CryptoLib.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -48,6 +45,12 @@
     <ClInclude Include="Include\Convert\convert.h">
       <Filter>头文件\Convert</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Hash\sha256.h">
+      <Filter>头文件\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Hash\sha512.h">
+      <Filter>头文件\Hash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stdafx.cpp">
@@ -61,6 +64,12 @@
     </ClCompile>
     <ClCompile Include="Include\Convert\convert.cpp">
       <Filter>源文件\Convert</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Hash\sha256.cpp">
+      <Filter>源文件\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Hash\sha512.cpp">
+      <Filter>源文件\Hash</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

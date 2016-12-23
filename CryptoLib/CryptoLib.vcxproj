@@ -130,13 +130,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Include\Convert\convert.h" />
     <ClInclude Include="Include\CryptoLib.h" />
     <ClInclude Include="Include\Hash\md5.h" />
     <ClInclude Include="Include\Hash\sha1.h" />
+    <ClInclude Include="Include\Hash\sha256.h" />
+    <ClInclude Include="Include\Hash\sha512.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
   </ItemGroup>
@@ -144,6 +143,8 @@
     <ClCompile Include="Include\Convert\convert.cpp" />
     <ClCompile Include="Include\Hash\md5.cpp" />
     <ClCompile Include="Include\Hash\sha1.cpp" />
+    <ClCompile Include="Include\Hash\sha256.cpp" />
+    <ClCompile Include="Include\Hash\sha512.cpp" />
     <ClCompile Include="Include\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

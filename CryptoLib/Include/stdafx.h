@@ -14,6 +14,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4244)
 #pragma warning(disable:4309)
+#pragma warning(disable:4838)
 
 #include "windows.h"
 #include <cstdio>
