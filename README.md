@@ -7,7 +7,7 @@ CryptoLib是一个轻量级C++密码类库，包括常用哈希、常用转换�
 
 # 支持的模块
 常用哈希：
-MD5 SHA1 SHA256 SHA512
+MD5 SHA1 SHA256 SHA512 CRC32
 常用转换：
 字符集转换
 

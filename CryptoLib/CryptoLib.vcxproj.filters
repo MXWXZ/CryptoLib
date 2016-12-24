@@ -51,6 +51,9 @@
     <ClInclude Include="Include\Hash\sha512.h">
       <Filter>头文件\Hash</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Hash\crc32.h">
+      <Filter>头文件\Hash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>源文件\Hash</Filter>
     </ClCompile>
     <ClCompile Include="Include\Hash\sha512.cpp">
+      <Filter>源文件\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Hash\crc32.cpp">
       <Filter>源文件\Hash</Filter>
     </ClCompile>
   </ItemGroup>

@@ -26,10 +26,11 @@ SOFTWARE.
 #include "stdafx.h"
 
 #define CRYPTOLIB_ENABLE_ALL_MODULES 1		//启用所有模块，为1则忽视下面的单独设置
-#define CRYPTOLIB_ENABLE_HASH_MD5 0			//启用MD5哈希模块
-#define CRYPTOLIB_ENABLE_HASH_SHA1 0		//启用SHA1哈希模块
+#define CRYPTOLIB_ENABLE_HASH_MD5    0		//启用MD5哈希模块
+#define CRYPTOLIB_ENABLE_HASH_SHA1   0		//启用SHA1哈希模块
 #define CRYPTOLIB_ENABLE_HASH_SHA256 0		//启用SHA256哈希模块
 #define CRYPTOLIB_ENABLE_HASH_SHA512 0		//启用SHA512哈希模块
+#define CRYPTOLIB_ENABLE_HASH_CRC32  0		//启用CRC32哈希模块
 
 
 #include "Convert/convert.h"
@@ -48,4 +49,8 @@ SOFTWARE.
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_HASH_SHA512)
 #include "Hash/sha512.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_HASH_CRC32)
+#include "Hash/crc32.h"
 #endif
