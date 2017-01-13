@@ -192,7 +192,7 @@ void Hash_SHA1::update(std::istream &is) {
 	while (true) {
 		char sbuf[BLOCK_BYTES];
 		is.read(sbuf, BLOCK_BYTES - buffer.size());
-		buffer.append(sbuf, is.gcount());
+		buffer.append(sbuf, (unsigned int)is.gcount());
 		if (buffer.size() != BLOCK_BYTES) {
 			return;
 		}
@@ -203,7 +203,7 @@ void Hash_SHA1::update(std::istream &is) {
 	}
 }
 
-LPCTSTR Hash_SHA1::Final() {
+STRX Hash_SHA1::Final() {
 	/* Total number of hashed bits */
 	uint64_t total_bits = (transforms*BLOCK_BYTES + buffer.size()) * 8;
 
@@ -225,7 +225,7 @@ LPCTSTR Hash_SHA1::Final() {
 	}
 
 	/* Append total_bits, split this uint64_t into two uint32_t */
-	block[BLOCK_INTS - 1] = total_bits;
+	block[BLOCK_INTS - 1] = (uint32_t)total_bits;
 	block[BLOCK_INTS - 2] = (total_bits >> 32);
 	transform(digest, block, transforms);
 
@@ -236,19 +236,22 @@ LPCTSTR Hash_SHA1::Final() {
 		res << digest[i];
 	}
 
-	return Convert::CWStr2TStr(res.str().c_str());
+	return STRX(res.str());
 }
 
-LPCTSTR Hash_SHA1::Generate(LPCTSTR dat) {
-	std::string str = Convert::WStr2Str(dat);
+STRX Hash_SHA1::Generate(STRX dat) {
+#if CRYPTOLIB_ENABLE_UTF8ONLY
+	dat.Encode2UTF8();
+#endif
+	string str = dat.GetString();
 	std::istringstream is(str);
 	update(is);
 	return Final();
 }
 
-LPCTSTR Hash_SHA1::GenerateFile(LPCTSTR filename) {
+STRX Hash_SHA1::GenerateFile(STRX filename) {
 	reset(digest, buffer, transforms);
-	std::ifstream stream(filename, std::ios::binary);
+	std::ifstream stream(filename.GetTString().c_str(), std::ios::binary);
 	update(stream);
 	return Final();
 }

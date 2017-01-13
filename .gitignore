@@ -37,3 +37,7 @@
 *.db
 *.iobj
 *.ipdb
+*.ilk
+
+*/Debug/*
+*/x64/*

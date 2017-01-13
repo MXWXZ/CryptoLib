@@ -44,16 +44,21 @@ uint32_t Hash_CRC32::GetCRC(uint32_t crcinit, uint8_t * bs, uint32_t bssize) {
 	return crc ^ 0xffffffff;
 }
 
-LPCTSTR Hash_CRC32::Generate(LPCTSTR dat) {
-	LPCSTR str = Convert::WStr2Str(dat);
+STRX Hash_CRC32::Generate(STRX dat) {
+#if CRYPTOLIB_ENABLE_UTF8ONLY
+	dat.Encode2UTF8();
+#endif
+	string rec = dat.GetString();
+	const char* str = rec.c_str();
 	uint32_t res = GetCRC(0x00000000, (uint8_t*)str, strlen(str));
-	LPSTR ret = new char[8];
-	sprintf(ret, "%08x", res);
-	return Convert::CWStr2TStr(ret);
+	STRX ret;
+	ret.Format(L"%08x", res);
+	return ret;
 }
 
-LPCTSTR Hash_CRC32::GenerateFile(LPCTSTR filename) {
-	FILE* fd = _tfopen(filename, _T("rb"));
+STRX Hash_CRC32::GenerateFile(STRX filename) {
+	FILE* fd = _tfopen(filename.GetTString().c_str(), _T("rb"));
+	assert(fd);
 	const uint32_t size = 16 * 1024;
 	uint8_t crcbuf[size];
 	uint32_t rdlen;
@@ -61,8 +66,8 @@ LPCTSTR Hash_CRC32::GenerateFile(LPCTSTR filename) {
 	while ((rdlen = fread(crcbuf, sizeof(uint8_t), size, fd)) > 0)
 		crc = GetCRC(crc, crcbuf, rdlen);
 	fclose(fd);
-	LPSTR ret = new char[8];
-	sprintf(ret, "%08x", crc);
-	return Convert::CWStr2TStr(ret);
+	STRX ret;
+	ret.Format(L"%08x", crc);
+	return ret;
 }
 }

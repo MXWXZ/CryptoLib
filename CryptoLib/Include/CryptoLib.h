@@ -25,15 +25,22 @@ SOFTWARE.
 
 #include "stdafx.h"
 
-#define CRYPTOLIB_ENABLE_ALL_MODULES 1		//启用所有模块，为1则忽视下面的单独设置
-#define CRYPTOLIB_ENABLE_HASH_MD5    0		//启用MD5哈希模块
-#define CRYPTOLIB_ENABLE_HASH_SHA1   0		//启用SHA1哈希模块
-#define CRYPTOLIB_ENABLE_HASH_SHA256 0		//启用SHA256哈希模块
-#define CRYPTOLIB_ENABLE_HASH_SHA512 0		//启用SHA512哈希模块
-#define CRYPTOLIB_ENABLE_HASH_CRC32  0		//启用CRC32哈希模块
+#define CRYPTOLIB_ENABLE_UTF8ONLY		   1		//是否强制使用UTF-8编码
 
+#define CRYPTOLIB_ENABLE_ALL_MODULES       1		//启用所有模块，为1则忽视下面的单独设置
 
-#include "Convert/convert.h"
+#define CRYPTOLIB_ENABLE_HASH_MD5          0		//启用MD5哈希模块
+#define CRYPTOLIB_ENABLE_HASH_SHA1         0		//启用SHA1哈希模块
+#define CRYPTOLIB_ENABLE_HASH_SHA256       0		//启用SHA256哈希模块
+#define CRYPTOLIB_ENABLE_HASH_SHA512       0		//启用SHA512哈希模块
+#define CRYPTOLIB_ENABLE_HASH_CRC32        0		//启用CRC32哈希模块
+
+#define CRYPTOLIB_ENABLE_ENCODE_BASE64     0		//启用Base64加解密模块
+#define CRYPTOLIB_ENABLE_ENCODE_URLENCODE  0		//启用UrlEncode加解密模块
+
+#define CRYPTOLIB_ENABLE_INFO_DISKSN	   0		//启用硬盘序列号获取模块
+
+#include "Utils\stringx.h"
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_HASH_MD5)
 #include "Hash/md5.h"
@@ -53,4 +60,16 @@ SOFTWARE.
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_HASH_CRC32)
 #include "Hash/crc32.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_ENCODE_BASE64)
+#include "Encode/base64.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_ENCODE_URLENCODE)
+#include "Encode/urlencode.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_DISKSN)
+#include "Info/disksn.h"
 #endif

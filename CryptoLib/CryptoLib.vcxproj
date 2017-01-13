@@ -130,27 +130,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Convert\convert.h" />
     <ClInclude Include="Include\CryptoLib.h" />
+    <ClInclude Include="Include\Encode\base64.h" />
+    <ClInclude Include="Include\Encode\urlencode.h" />
     <ClInclude Include="Include\Hash\crc32.h" />
     <ClInclude Include="Include\Hash\md5.h" />
     <ClInclude Include="Include\Hash\sha1.h" />
     <ClInclude Include="Include\Hash\sha256.h" />
     <ClInclude Include="Include\Hash\sha512.h" />
+    <ClInclude Include="Include\Info\disksn.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
+    <ClInclude Include="Include\Utils\stringx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Convert\convert.cpp" />
+    <ClCompile Include="Include\Encode\base64.cpp" />
+    <ClCompile Include="Include\Encode\urlencode.cpp" />
     <ClCompile Include="Include\Hash\crc32.cpp" />
     <ClCompile Include="Include\Hash\md5.cpp" />
     <ClCompile Include="Include\Hash\sha1.cpp" />
     <ClCompile Include="Include\Hash\sha256.cpp" />
     <ClCompile Include="Include\Hash\sha512.cpp" />
+    <ClCompile Include="Include\Info\disksn.cpp" />
     <ClCompile Include="Include\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Include\Utils\stringx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

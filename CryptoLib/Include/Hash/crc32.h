@@ -3,8 +3,8 @@
 namespace CryptoLib {
 class Hash_CRC32 {
 public:
-	static LPCTSTR Generate(LPCTSTR dat);
-	static LPCTSTR GenerateFile(LPCTSTR filename);
+	static STRX Generate(STRX dat);
+	static STRX GenerateFile(STRX filename);
 
 protected:
 	static UINT32 table[];

@@ -6,8 +6,8 @@
 namespace CryptoLib {
 class Hash_SHA256 {
 public:
-	static LPCTSTR Generate(LPCTSTR dat);
-	static LPCTSTR GenerateFile(LPCTSTR filename);
+	static STRX Generate(STRX dat);
+	static STRX GenerateFile(STRX filename);
 
 protected:
 	static char* StrSHA256(const char* str, long long length, char* sha256);

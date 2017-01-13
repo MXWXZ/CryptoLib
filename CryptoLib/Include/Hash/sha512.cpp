@@ -17,35 +17,35 @@ namespace CryptoLib {
 #define SHA512_F4(x) (SHA2_ROTR(x, 19) ^ SHA2_ROTR(x, 61) ^ SHA2_SHFR(x,  6))
 #define SHA2_UNPACK32(x, str)                 \
 {                                             \
-    *((str) + 3) = (uint8) ((x)      );       \
-    *((str) + 2) = (uint8) ((x) >>  8);       \
-    *((str) + 1) = (uint8) ((x) >> 16);       \
-    *((str) + 0) = (uint8) ((x) >> 24);       \
+    *((str) + 3) = (uint8_t) ((x)      );       \
+    *((str) + 2) = (uint8_t) ((x) >>  8);       \
+    *((str) + 1) = (uint8_t) ((x) >> 16);       \
+    *((str) + 0) = (uint8_t) ((x) >> 24);       \
 }
 #define SHA2_UNPACK64(x, str)                 \
 {                                             \
-    *((str) + 7) = (uint8) ((x)      );       \
-    *((str) + 6) = (uint8) ((x) >>  8);       \
-    *((str) + 5) = (uint8) ((x) >> 16);       \
-    *((str) + 4) = (uint8) ((x) >> 24);       \
-    *((str) + 3) = (uint8) ((x) >> 32);       \
-    *((str) + 2) = (uint8) ((x) >> 40);       \
-    *((str) + 1) = (uint8) ((x) >> 48);       \
-    *((str) + 0) = (uint8) ((x) >> 56);       \
+    *((str) + 7) = (uint8_t) ((x)      );       \
+    *((str) + 6) = (uint8_t) ((x) >>  8);       \
+    *((str) + 5) = (uint8_t) ((x) >> 16);       \
+    *((str) + 4) = (uint8_t) ((x) >> 24);       \
+    *((str) + 3) = (uint8_t) ((x) >> 32);       \
+    *((str) + 2) = (uint8_t) ((x) >> 40);       \
+    *((str) + 1) = (uint8_t) ((x) >> 48);       \
+    *((str) + 0) = (uint8_t) ((x) >> 56);       \
 }
 #define SHA2_PACK64(str, x)                   \
 {                                             \
-    *(x) =   ((uint64) *((str) + 7)      )    \
-           | ((uint64) *((str) + 6) <<  8)    \
-           | ((uint64) *((str) + 5) << 16)    \
-           | ((uint64) *((str) + 4) << 24)    \
-           | ((uint64) *((str) + 3) << 32)    \
-           | ((uint64) *((str) + 2) << 40)    \
-           | ((uint64) *((str) + 1) << 48)    \
-           | ((uint64) *((str) + 0) << 56);   \
+    *(x) =   ((uint64_t) *((str) + 7)      )    \
+           | ((uint64_t) *((str) + 6) <<  8)    \
+           | ((uint64_t) *((str) + 5) << 16)    \
+           | ((uint64_t) *((str) + 4) << 24)    \
+           | ((uint64_t) *((str) + 3) << 32)    \
+           | ((uint64_t) *((str) + 2) << 40)    \
+           | ((uint64_t) *((str) + 1) << 48)    \
+           | ((uint64_t) *((str) + 0) << 56);   \
 }
 //////////////////////////////////////////////////////////////////////////
-const unsigned long long Hash_SHA512::sha512_k[80] = {
+const uint64_t Hash_SHA512::sha512_k[80] = {
 0x428a2f98d728ae22ULL, 0x7137449123ef65cdULL,
 0xb5c0fbcfec4d3b2fULL, 0xe9b5dba58189dbbcULL,
 0x3956c25bf348b538ULL, 0x59f111f1b605d019ULL,
@@ -88,34 +88,30 @@ const unsigned long long Hash_SHA512::sha512_k[80] = {
 0x5fcb6fab3ad6faecULL, 0x6c44198c4a475817ULL
 };
 
-Hash_SHA512::uint64 Hash_SHA512::m_h[] = {
+uint64_t Hash_SHA512::m_h[] = {
 0x6a09e667f3bcc908ULL,0xbb67ae8584caa73bULL,
 0x3c6ef372fe94f82bULL,0xa54ff53a5f1d36f1ULL,
 0x510e527fade682d1ULL,0x9b05688c2b3e6c1fULL,
 0x1f83d9abfb41bd6bULL,0x5be0cd19137e2179ULL 
 };
-unsigned int Hash_SHA512::m_len = 0;
-unsigned int Hash_SHA512::m_tot_len = 0;
-unsigned char Hash_SHA512::m_block[] = { 0 };
+uint32_t Hash_SHA512::m_len = 0;
+uint32_t Hash_SHA512::m_tot_len = 0;
+uint8_t Hash_SHA512::m_block[] = { 0 };
 
-void Hash_SHA512::transform(const unsigned char *message, unsigned int block_nb) {
-	uint64 w[80];
-	uint64 wv[8];
-	uint64 t1, t2;
-	const unsigned char *sub_block;
-	int i, j;
-	for (i = 0; i < (int)block_nb; i++) {
+void Hash_SHA512::transform(const uint8_t* message, uint32_t block_nb) {
+	uint64_t w[80];
+	uint64_t wv[8];
+	uint64_t t1, t2;
+	const uint8_t *sub_block;
+	for (int i = 0; i < (int)block_nb; i++) {
 		sub_block = message + (i << 7);
-		for (j = 0; j < 16; j++) {
+		for (int j = 0; j < 16; j++)
 			SHA2_PACK64(&sub_block[j << 3], &w[j]);
-		}
-		for (j = 16; j < 80; j++) {
+		for (int j = 16; j < 80; j++)
 			w[j] = SHA512_F4(w[j - 2]) + w[j - 7] + SHA512_F3(w[j - 15]) + w[j - 16];
-		}
-		for (j = 0; j < 8; j++) {
+		for (int j = 0; j < 8; j++)
 			wv[j] = m_h[j];
-		}
-		for (j = 0; j < 80; j++) {
+		for (int j = 0; j < 80; j++) {
 			t1 = wv[7] + SHA512_F2(wv[4]) + SHA2_CH(wv[4], wv[5], wv[6])
 				+ sha512_k[j] + w[j];
 			t2 = SHA512_F1(wv[0]) + SHA2_MAJ(wv[0], wv[1], wv[2]);
@@ -128,9 +124,8 @@ void Hash_SHA512::transform(const unsigned char *message, unsigned int block_nb)
 			wv[1] = wv[0];
 			wv[0] = t1 + t2;
 		}
-		for (j = 0; j < 8; j++) {
+		for (int j = 0; j < 8; j++)
 			m_h[j] += wv[j];
-		}
 	}
 }
 
@@ -147,10 +142,10 @@ void Hash_SHA512::init() {
 	m_tot_len = 0;
 }
 
-void Hash_SHA512::update(const unsigned char *message, unsigned int len) {
-	unsigned int block_nb;
-	unsigned int new_len, rem_len, tmp_len;
-	const unsigned char *shifted_message;
+void Hash_SHA512::update(const uint8_t *message, uint32_t len) {
+	uint32_t block_nb;
+	uint32_t new_len, rem_len, tmp_len;
+	const uint8_t *shifted_message;
 	tmp_len = SHA384_512_BLOCK_SIZE - m_len;
 	rem_len = len < tmp_len ? len : tmp_len;
 	memcpy(&m_block[m_len], message, rem_len);
@@ -169,10 +164,10 @@ void Hash_SHA512::update(const unsigned char *message, unsigned int len) {
 	m_tot_len += (block_nb + 1) << 7;
 }
 
-void Hash_SHA512::final(unsigned char *digest) {
-	unsigned int block_nb;
-	unsigned int pm_len;
-	unsigned int len_b;
+void Hash_SHA512::final(uint8_t* digest) {
+	uint32_t block_nb;
+	uint32_t pm_len;
+	uint32_t len_b;
 	int i;
 	block_nb = 1 + ((SHA384_512_BLOCK_SIZE - 17) < (m_len % SHA384_512_BLOCK_SIZE));
 	len_b = (m_tot_len + m_len) << 3;
@@ -181,17 +176,16 @@ void Hash_SHA512::final(unsigned char *digest) {
 	m_block[m_len] = 0x80;
 	SHA2_UNPACK32(len_b, m_block + pm_len - 4);
 	transform(m_block, block_nb);
-	for (i = 0; i < 8; i++) {
+	for (i = 0; i < 8; i++)
 		SHA2_UNPACK64(m_h[i], &digest[i << 3]);
-	}
 }
 
 std::string Hash_SHA512::sha512(const void* dat, size_t len) {
-	unsigned char digest[Hash_SHA512::DIGEST_SIZE];
+	uint8_t digest[Hash_SHA512::DIGEST_SIZE];
 	memset(digest, 0, Hash_SHA512::DIGEST_SIZE);
 	Hash_SHA512 ctx = Hash_SHA512();
 	ctx.init();
-	ctx.update((const unsigned char*)dat, len);
+	ctx.update((const uint8_t*)dat, len);
 	ctx.final(digest);
 
 	char buf[2 * Hash_SHA512::DIGEST_SIZE + 1];
@@ -204,7 +198,8 @@ std::string Hash_SHA512::sha512(const void* dat, size_t len) {
 
 std::string Hash_SHA512::sha512file(const char* filename) {
 	std::FILE* file = std::fopen(filename, "rb");
-	unsigned char digest[Hash_SHA512::DIGEST_SIZE];
+	assert(file);
+	uint8_t digest[Hash_SHA512::DIGEST_SIZE];
 	memset(digest, 0, Hash_SHA512::DIGEST_SIZE);
 	Hash_SHA512 ctx = Hash_SHA512();
 	ctx.init();
@@ -212,7 +207,7 @@ std::string Hash_SHA512::sha512file(const char* filename) {
 	char buff[BUFSIZ];
 	size_t len = 0;
 	while ((len = std::fread(buff, sizeof(char), BUFSIZ, file)) > 0) {
-		ctx.update((const unsigned char*)buff, len);
+		ctx.update((const uint8_t*)buff, len);
 	}
 	ctx.final(digest);
 
@@ -225,13 +220,16 @@ std::string Hash_SHA512::sha512file(const char* filename) {
 	return res;
 }
 
-LPCTSTR Hash_SHA512::Generate(LPCTSTR dat) {
-	LPCSTR str = Convert::WStr2Str(dat);
-	return Convert::CWStr2TStr(sha512(str, strlen(str)).c_str());
+STRX Hash_SHA512::Generate(STRX dat) {
+#if CRYPTOLIB_ENABLE_UTF8ONLY
+	dat.Encode2UTF8();
+#endif
+	string rec = dat.GetString();
+	const char* str = rec.c_str();
+	return STRX(sha512(str, strlen(str)));
 }
 
-LPCTSTR Hash_SHA512::GenerateFile(LPCTSTR filename) {
-	LPCSTR str = Convert::WStr2Str(filename);
-	return Convert::CWStr2TStr(sha512file(str).c_str());
+STRX Hash_SHA512::GenerateFile(STRX filename) {
+	return STRX(sha512file(filename.GetString().c_str()));
 }
 }

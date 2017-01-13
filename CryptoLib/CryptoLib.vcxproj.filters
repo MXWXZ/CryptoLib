@@ -19,11 +19,23 @@
     <Filter Include="源文件\Hash">
       <UniqueIdentifier>{38cd699d-1582-4945-b2f8-dc79495c5dbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Convert">
-      <UniqueIdentifier>{cf2c1691-30f5-47c0-b7c2-80ce9415c04a}</UniqueIdentifier>
+    <Filter Include="源文件\Info">
+      <UniqueIdentifier>{c4314bb2-cce2-4538-9b56-ae613b1f4079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Convert">
-      <UniqueIdentifier>{e5248315-07fa-43c0-92a6-b7906a7c2ea8}</UniqueIdentifier>
+    <Filter Include="头文件\Info">
+      <UniqueIdentifier>{6fed36de-69ed-4e2e-a1f1-40393ff10ca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Encode">
+      <UniqueIdentifier>{6dee0f9b-936b-42bf-910f-9e26567b2be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Encode">
+      <UniqueIdentifier>{f1c2b59c-545d-4b89-850b-4ff01fa8f969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Utils">
+      <UniqueIdentifier>{e8ec419d-cdc2-4693-88f2-413c17ca0624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Utils">
+      <UniqueIdentifier>{6ceef9f9-2404-4574-adc5-8d7c8c44d048}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +54,6 @@
     <ClInclude Include="Include\Hash\sha1.h">
       <Filter>头文件\Hash</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Convert\convert.h">
-      <Filter>头文件\Convert</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Hash\sha256.h">
       <Filter>头文件\Hash</Filter>
     </ClInclude>
@@ -53,6 +62,18 @@
     </ClInclude>
     <ClInclude Include="Include\Hash\crc32.h">
       <Filter>头文件\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Info\disksn.h">
+      <Filter>头文件\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Encode\base64.h">
+      <Filter>头文件\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Encode\urlencode.h">
+      <Filter>头文件\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\stringx.h">
+      <Filter>头文件\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +86,6 @@
     <ClCompile Include="Include\Hash\sha1.cpp">
       <Filter>源文件\Hash</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Convert\convert.cpp">
-      <Filter>源文件\Convert</Filter>
-    </ClCompile>
     <ClCompile Include="Include\Hash\sha256.cpp">
       <Filter>源文件\Hash</Filter>
     </ClCompile>
@@ -76,6 +94,18 @@
     </ClCompile>
     <ClCompile Include="Include\Hash\crc32.cpp">
       <Filter>源文件\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Info\disksn.cpp">
+      <Filter>源文件\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Encode\base64.cpp">
+      <Filter>源文件\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Encode\urlencode.cpp">
+      <Filter>源文件\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Utils\stringx.cpp">
+      <Filter>源文件\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,20 +23,20 @@ namespace CryptoLib {
 #else
 #define SET(n) \
 		(ctx->block[(n)] = \
-		(MD5_u32)ptr[(n) * 4] | \
-		((MD5_u32)ptr[(n) * 4 + 1] << 8) | \
-		((MD5_u32)ptr[(n) * 4 + 2] << 16) | \
-		((MD5_u32)ptr[(n) * 4 + 3] << 24))
+		(uint32_t)ptr[(n) * 4] | \
+		((uint32_t)ptr[(n) * 4 + 1] << 8) | \
+		((uint32_t)ptr[(n) * 4 + 2] << 16) | \
+		((uint32_t)ptr[(n) * 4 + 3] << 24))
 #define GET(n) \
 		(ctx->block[(n)])
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-Hash_MD5::MD5_CVP Hash_MD5::body(MD5_CTX * ctx, MD5_CVP data, MD5_u64 size) {
-	const MD5_uCH* ptr;
-	MD5_u32 a, b, c, d;
-	MD5_u32 saved_a, saved_b, saved_c, saved_d;
-	ptr = (const MD5_uCH*)data;
+const void* Hash_MD5::body(MD5_CTX * ctx, const void* data, unsigned long size) {
+	const uint8_t* ptr;
+	uint32_t a, b, c, d;
+	uint32_t saved_a, saved_b, saved_c, saved_d;
+	ptr = (const uint8_t*)data;
 	a = ctx->a;
 	b = ctx->b;
 	c = ctx->c;
@@ -136,9 +136,9 @@ void Hash_MD5::MD5_Init(MD5_CTX* ctx) {
 	ctx->hi = 0;
 }
 
-void Hash_MD5::MD5_Update(MD5_CTX* ctx, MD5_CVP data, MD5_u64 size) {
-	MD5_u32 saved_lo;
-	MD5_u64 used, free;
+void Hash_MD5::MD5_Update(MD5_CTX* ctx, const void* data, unsigned long size) {
+	uint32_t saved_lo;
+	unsigned long used, free;
 
 	saved_lo = ctx->lo;
 	if ((ctx->lo = (saved_lo + size) & 0x1fffffff) < saved_lo)
@@ -153,21 +153,21 @@ void Hash_MD5::MD5_Update(MD5_CTX* ctx, MD5_CVP data, MD5_u64 size) {
 			return;
 		}
 		memcpy(&ctx->buffer[used], data, free);
-		data = (MD5_uCH*)data + free;
+		data = (uint8_t*)data + free;
 		size -= free;
 		body(ctx, ctx->buffer, 64);
 	}
 
 	if (size >= 64) {
-		data = body(ctx, data, size & ~(MD5_u64)0x3f);
+		data = body(ctx, data, size & ~(unsigned long)0x3f);
 		size &= 0x3f;
 	}
 
 	memcpy(ctx->buffer, data, size);
 }
 
-void Hash_MD5::MD5_Final(MD5_uCH* result, MD5_CTX* ctx) {
-	MD5_u64 used, free;
+void Hash_MD5::MD5_Final(uint8_t* result, MD5_CTX* ctx) {
+	unsigned long used, free;
 	used = ctx->lo & 0x3f;
 	ctx->buffer[used++] = 0x80;
 	free = 64 - used;
@@ -210,46 +210,51 @@ void Hash_MD5::MD5_Final(MD5_uCH* result, MD5_CTX* ctx) {
 	memset(ctx, 0, sizeof(*ctx));
 }
 
-void Hash_MD5::md5bin(MD5_CVP dat, size_t len, MD5_uCH out[16]) {
+void Hash_MD5::md5bin(const void* dat, size_t len, uint8_t out[16]) {
 	MD5_CTX c;
 	MD5_Init(&c);
 	MD5_Update(&c, dat, len);
 	MD5_Final(out, &c);
 }
 
-char Hash_MD5::hb2hex(MD5_uCH hb) {
+char Hash_MD5::hb2hex(uint8_t hb) {
 	hb = hb & 0xF;
 	return hb < 10 ? _T('0') + hb : hb - 10 + _T('a');
 }
 
-LPCTSTR Hash_MD5::Generate(LPCTSTR dat) {
-	MD5_uCH out[16];
-	char* str = Convert::WStr2Str(dat);
+STRX Hash_MD5::Generate(STRX dat) {
+#if CRYPTOLIB_ENABLE_UTF8ONLY
+	dat.Encode2UTF8();
+#endif
+	string rec = dat.GetString();
+	const char* str = rec.c_str();
+	uint8_t out[16];
 	md5bin(str, strlen(str), out);
-	std::string res;
+	STRX res;
 	for (size_t i = 0; i < 16; ++i) {
-		res.push_back(hb2hex(out[i] >> 4));
-		res.push_back(hb2hex(out[i]));
+		res += hb2hex(out[i] >> 4);
+		res += hb2hex(out[i]);
 	}
-	return Convert::CWStr2TStr(res.c_str());
+	return res;
 }
 
-LPCTSTR Hash_MD5::GenerateFile(LPCTSTR filename) {
-	FILE* file = _tfopen(filename, _T("rb"));
+STRX Hash_MD5::GenerateFile(STRX filename) {
+	FILE* file = _tfopen(filename.GetTString().c_str(), _T("rb"));
+	assert(file);
 	MD5_CTX c;
 	MD5_Init(&c);
 	char buff[BUFSIZ];
-	MD5_uCH out[16];
+	uint8_t out[16];
 	size_t len = 0;
 	while ((len = fread(buff, sizeof(char), BUFSIZ, file)) > 0)
 		MD5_Update(&c, buff, len);
 	MD5_Final(out, &c);
-	std::string res;
+	STRX res;
 	for (size_t i = 0; i < 16; ++i) {
-		res.push_back(hb2hex(out[i] >> 4));
-		res.push_back(hb2hex(out[i]));
+		res += hb2hex(out[i] >> 4);
+		res += hb2hex(out[i]);
 	}
 	fclose(file);
-	return Convert::CWStr2TStr(res.c_str());
+	return res;
 }
 }

@@ -12,9 +12,9 @@
 // TODO:  在此处引用程序需要的其他头文件
 
 #define _CRT_SECURE_NO_WARNINGS
-#pragma warning(disable:4244)
 #pragma warning(disable:4309)
 #pragma warning(disable:4838)
+#pragma warning(disable:4302)
 
 #include "windows.h"
 #include <cstdio>
@@ -25,5 +25,8 @@
 #include <sstream>
 #include <iomanip>
 #include <fstream>
+#include <algorithm>
+#include "atlconv.h"
+#include <assert.h>
 
 #include "CryptoLib.h"

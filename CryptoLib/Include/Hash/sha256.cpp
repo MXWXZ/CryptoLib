@@ -38,12 +38,12 @@ char* Hash_SHA256::StrSHA256(const char* str, long long length, char* sha256) {
 		0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
 		0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
 	};
-	l = length + ((length % 64 > 56) ? (128 - length % 64) : (64 - length % 64));
+	l = (long)(length + ((length % 64 > 56) ? (128 - length % 64) : (64 - length % 64)));
 	if (!(pp = (char*)malloc((unsigned long)l))) return 0;
 	for (i = 0; i < length; pp[i + 3 - 2 * (i % 4)] = str[i], i++);
 	for (pp[i + 3 - 2 * (i % 4)] = 128, i++; i < l; pp[i + 3 - 2 * (i % 4)] = 0, i++);
-	*((long*)(pp + l - 4)) = length << 3;
-	*((long*)(pp + l - 8)) = length >> 29;
+	*((long*)(pp + l - 4)) = (long)(length << 3);
+	*((long*)(pp + l - 8)) = (long)(length >> 29);
 	for (ppend = pp + l; pp < ppend; pp += 64) {
 		for (i = 0; i < 16; W[i] = ((long*)pp)[i], i++);
 		for (i = 16; i < 64; W[i] = (SHA256_O1(W[i - 2]) + W[i - 7] + SHA256_O0(W[i - 15]) + W[i - 16]), i++);
@@ -85,6 +85,7 @@ char* Hash_SHA256::FileSHA256(const char* file, char* sha256) {
 		0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
 	};
 	fh = fopen(file, "rb");
+	assert(fh);
 	fseek(fh, 0, SEEK_END);
 	length = _ftelli64(fh);
 	addlsize = (56 - length % 64 > 0) ? (64) : (128);
@@ -97,8 +98,8 @@ char* Hash_SHA256::FileSHA256(const char* file, char* sha256) {
 	for (i = 0; i < j; addlp[i + 3 - 2 * (i % 4)] = ((char*)pp)[i], i++);
 	free(pp);
 	for (addlp[i + 3 - 2 * (i % 4)] = 128, i++; i < addlsize; addlp[i + 3 - 2 * (i % 4)] = 0, i++);
-	*((long*)(addlp + addlsize - 4)) = length << 3;
-	*((long*)(addlp + addlsize - 8)) = length >> 29;
+	*((long*)(addlp + addlsize - 4)) = (long)(length << 3);
+	*((long*)(addlp + addlsize - 8)) = (long)(length >> 29);
 	for (rewind(fh); 64 == fread(W, 1, 64, fh);) {
 		for (i = 0; i < 64; T[i + 3 - 2 * (i % 4)] = ((char*)W)[i], i++);
 		for (i = 0; i < 16; W[i] = ((long*)T)[i], i++);
@@ -127,17 +128,20 @@ char* Hash_SHA256::FileSHA256(const char* file, char* sha256) {
 	return sha256;
 }
 
-LPCTSTR Hash_SHA256::Generate(LPCTSTR dat) {
-	LPCSTR str = Convert::WStr2Str(dat);
+STRX Hash_SHA256::Generate(STRX dat) {
+#if CRYPTOLIB_ENABLE_UTF8ONLY
+	dat.Encode2UTF8();
+#endif
+	string rec = dat.GetString();
+	const char* str = rec.c_str();
 	char result[65];
 	StrSHA256(str, strlen(str), result);
-	return Convert::CWStr2TStr(result);
+	return STRX(result);
 }
 
-LPCTSTR Hash_SHA256::GenerateFile(LPCTSTR filename) {
-	LPCSTR str = Convert::WStr2Str(filename);
+STRX Hash_SHA256::GenerateFile(STRX filename) {
 	char result[65];
-	FileSHA256(str, result);
-	return Convert::CWStr2TStr(result);
+	FileSHA256(filename.GetString().c_str(), result);
+	return STRX(result);
 }
 }

@@ -20,8 +20,8 @@ Safety fixes
 namespace CryptoLib {
 class Hash_SHA1 {
 public:
-	static LPCTSTR Generate(LPCTSTR dat);
-	static LPCTSTR GenerateFile(LPCTSTR filename);
+	static STRX Generate(STRX dat);
+	static STRX GenerateFile(STRX filename);
 
 protected:
 	static const size_t BLOCK_INTS = 16;
@@ -52,6 +52,6 @@ protected:
 	static void transform(uint32_t digest[], uint32_t block[BLOCK_INTS], uint64_t &transforms);
 	static void buffer_to_block(const std::string &buffer, uint32_t block[BLOCK_INTS]);
 	static void update(std::istream &is);
-	static LPCTSTR Final();
+	static STRX Final();
 };
 }
