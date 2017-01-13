@@ -39,6 +39,7 @@ SOFTWARE.
 #define CRYPTOLIB_ENABLE_ENCODE_URLENCODE  0		//启用UrlEncode加解密模块
 
 #define CRYPTOLIB_ENABLE_INFO_DISKSN	   0		//启用硬盘序列号获取模块
+#define CRYPTOLIB_ENABLE_INFO_MACSN		   0		//启用MAC地址获取模块
 
 #include "Utils\stringx.h"
 
@@ -72,4 +73,8 @@ SOFTWARE.
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_DISKSN)
 #include "Info/disksn.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_MACSN)
+#include "Info/macsn.h"
 #endif

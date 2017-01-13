@@ -40,4 +40,5 @@
 *.ilk
 
 */Debug/*
+*/Release/*
 */x64/*

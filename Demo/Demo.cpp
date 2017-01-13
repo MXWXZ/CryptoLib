@@ -5,8 +5,8 @@
 #include "windows.h"
 #include "../CryptoLib/Include/CryptoLib.h"
 #pragma comment(lib, "../CryptoLib/Lib/CryptoLib.lib")
-
 using namespace CryptoLib;
+
 int main()
 {
 	//注：在IDE中调试时GenerateFile由于路径问题可能会报错，注释或用绝对路径即可
@@ -56,6 +56,8 @@ int main()
 	//硬件信息
 	_tprintf(_T("	硬件信息（需要管理员权限）\n	-----------------------------\n"));
 	_tprintf(_T("	硬盘序列号：%s\n"),Info_DiskSN::GetSN().GetTString().c_str());
+	_tprintf(_T("	MAC地址：%s\n"), Info_MacSN::GetSN().GetTString().c_str());
+	
 	
 	getchar();
     return 0;

@@ -75,6 +75,9 @@
     <ClInclude Include="Include\Utils\stringx.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Info\macsn.h">
+      <Filter>头文件\Info</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stdafx.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="Include\Utils\stringx.cpp">
       <Filter>源文件\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Info\macsn.cpp">
+      <Filter>源文件\Info</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
