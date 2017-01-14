@@ -1,10 +1,11 @@
 /************************************************************************
 本类为保证DLL安全，所有传入字符串（char*或wchar_t*）均需要初始化分配空间
 （new或数组）后再传入，所有函数均不检查长度是否足够，可以使用
-stringx::GetAWConvertLength或stringx::GetGUConvertLength等取得字符串转换
-所需长度，或使用足够大的空间。
+stringx::GetAWConvertLength或stringx::GetGUConvertLength
+GetADataLength\GetWDataLength等取得字符串转换所需长度，或使用足够大的空间。
 比如：
 wchar_t* wstr = new wchar[GetAWConvertLength(str)]; 
+wchar_t* wstr = new wchar[str.GetWDataLength()];
 
 本类默认为GBK编码，如果传入的字符串是UTF-8编码，请调用SetEncodeUTF8，以
 保证得到想要的结果
@@ -68,8 +69,12 @@ public:
 	wstring GetWString() const;
 	tstring GetTString() const;
 	SXCWSTR GetData() const;
+	SXSTR GetData(SXSTR out) const;
+	SXWSTR GetData(SXWSTR out) const;
 	SXULL GetDigit() const;
 	wstring& GetBuffer();
+	int GetADataLength();
+	int GetWDataLength();
 
 	void Empty();
 	bool IsEmpty() const;

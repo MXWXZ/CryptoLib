@@ -18,7 +18,7 @@ int main()
 	//MD5
 	_tprintf(_T("	MD5 长度：32\n"));
 	_tprintf(_T("	MD5值小写：%s\n"), Hash_MD5::Generate(str).GetTString().c_str());			//默认返回小写
-	_tprintf(_T("	MD5值大写：%s\n"), _tcsupr((wchar_t*)Hash_MD5::Generate(str).GetTString().c_str()));	//转换成大写
+	_tprintf(_T("	MD5值大写：%s\n"), Hash_MD5::Generate(str).MakeUpper().GetTString().c_str());	//转换成大写
 	_tprintf(_T("	本程序MD5：%s\n"), Hash_MD5::GenerateFile(_T("Demo.exe")).GetTString().c_str());	//文件MD5
 	_tprintf(_T("\n"));
 	//SHA1
@@ -57,7 +57,9 @@ int main()
 	_tprintf(_T("	硬件信息（需要管理员权限）\n	-----------------------------\n"));
 	_tprintf(_T("	硬盘序列号：%s\n"),Info_DiskSN::GetSN().GetTString().c_str());
 	_tprintf(_T("	MAC地址：%s\n"), Info_MacSN::GetSN().GetTString().c_str());
-	
+	_tprintf(_T("	CPU序列号：%s\n"), Info_CpuSN::GetSN().GetTString().c_str());
+	_tprintf(_T("	主板序列号：%s\n"), Info_BaseboardSN::GetSN().GetTString().c_str());
+	_tprintf(_T("	BIOS序列号：%s\n"), Info_BiosSN::GetSN().GetTString().c_str());
 	
 	getchar();
     return 0;

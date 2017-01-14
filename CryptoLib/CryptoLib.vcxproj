@@ -138,6 +138,10 @@
     <ClInclude Include="Include\Hash\sha1.h" />
     <ClInclude Include="Include\Hash\sha256.h" />
     <ClInclude Include="Include\Hash\sha512.h" />
+    <ClInclude Include="Include\Info\baseboardsn.h" />
+    <ClInclude Include="Include\Info\snbase.h" />
+    <ClInclude Include="Include\Info\biossn.h" />
+    <ClInclude Include="Include\Info\cpusn.h" />
     <ClInclude Include="Include\Info\disksn.h" />
     <ClInclude Include="Include\Info\macsn.h" />
     <ClInclude Include="Include\stdafx.h" />
@@ -152,6 +156,10 @@
     <ClCompile Include="Include\Hash\sha1.cpp" />
     <ClCompile Include="Include\Hash\sha256.cpp" />
     <ClCompile Include="Include\Hash\sha512.cpp" />
+    <ClCompile Include="Include\Info\baseboardsn.cpp" />
+    <ClCompile Include="Include\Info\snbase.cpp" />
+    <ClCompile Include="Include\Info\biossn.cpp" />
+    <ClCompile Include="Include\Info\cpusn.cpp" />
     <ClCompile Include="Include\Info\disksn.cpp" />
     <ClCompile Include="Include\Info\macsn.cpp" />
     <ClCompile Include="Include\stdafx.cpp">

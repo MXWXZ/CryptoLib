@@ -40,8 +40,12 @@ SOFTWARE.
 
 #define CRYPTOLIB_ENABLE_INFO_DISKSN	   0		//启用硬盘序列号获取模块
 #define CRYPTOLIB_ENABLE_INFO_MACSN		   0		//启用MAC地址获取模块
+#define CRYPTOLIB_ENABLE_INFO_CPUSN		   0		//启用CPU序列号获取模块
+#define CRYPTOLIB_ENABLE_INFO_BASEBOARDSN  0		//启用主板序列号获取模块
+#define CRYPTOLIB_ENABLE_INFO_BIOSSN	   0		//启用BIOS序列号获取模块
 
 #include "Utils\stringx.h"
+#include "Info\snbase.h"
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_HASH_MD5)
 #include "Hash/md5.h"
@@ -77,4 +81,16 @@ SOFTWARE.
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_MACSN)
 #include "Info/macsn.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_CPUSN)
+#include "Info/cpusn.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_BASEBOARDSN)
+#include "Info/baseboardsn.h"
+#endif
+
+#if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_INFO_BIOSSN)
+#include "Info/biossn.h"
 #endif

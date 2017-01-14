@@ -11,7 +11,7 @@ MD5 SHA1 SHA256 SHA512 CRC32(Poly：0xEDB88320L)
 常用加解密：
 Base64 UrlEncode(RFC3986)
 硬件信息：
-硬盘序列号 MAC地址
+硬盘序列号 MAC地址 CPU序列号 主板序列号 BIOS序列号
 
 # 鸣谢
 在开发过程中，少不了下面的开源代码的支持：

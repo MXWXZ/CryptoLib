@@ -4,7 +4,7 @@
 #pragma once
 
 namespace CryptoLib {
-class Info_MacSN {
+class Info_MacSN :public Info_SNBase {
 public:
 	static STRX GetSN();
 

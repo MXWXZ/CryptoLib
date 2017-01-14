@@ -78,6 +78,18 @@
     <ClInclude Include="Include\Info\macsn.h">
       <Filter>头文件\Info</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Info\cpusn.h">
+      <Filter>头文件\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Info\baseboardsn.h">
+      <Filter>头文件\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Info\biossn.h">
+      <Filter>头文件\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Info\snbase.h">
+      <Filter>头文件\Info</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stdafx.cpp">
@@ -111,6 +123,18 @@
       <Filter>源文件\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Include\Info\macsn.cpp">
+      <Filter>源文件\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Info\cpusn.cpp">
+      <Filter>源文件\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Info\baseboardsn.cpp">
+      <Filter>源文件\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Info\biossn.cpp">
+      <Filter>源文件\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Info\snbase.cpp">
       <Filter>源文件\Info</Filter>
     </ClCompile>
   </ItemGroup>
