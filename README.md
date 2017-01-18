@@ -3,7 +3,7 @@
 ![C++](https://img.shields.io/badge/Language-C%2B%2B-brightgreen.svg)
 ![Version](https://img.shields.io/badge/Version-1.0-blue.svg)
 
-CryptoLib是一个轻量级C++密码类库，包括常用哈希、加解密、硬件信息获取、拓展类等模块，基于MIT协议，可以用于商业软件。
+CryptoLib是一个轻量级C++密码类库，完全编译只需要几十KB！包括常用哈希、加解密、硬件信息获取、拓展类等模块，基于MIT协议，可以用于商业软件。
 
 # 支持的模块
 常用哈希：
@@ -17,6 +17,17 @@ Base64 UrlEncode(RFC3986)
 
 拓展类：
 字符串类 大数类
+
+# 简单地使用
+
+``` 
+HashClass::Generate(str)                        //计算str哈希值，默认返回小写
+HashClass::GenerateFile(_T("File Name")));      //计算文件哈希，默认返回小写
+EncodeClass::Encode(str);                       //加密
+EncodeClass::Decode(str);                       //解密
+InfoClass::GetSN();                             //取得序列号
+```
+
 
 # 鸣谢
 在开发过程中，少不了下面的开源代码的支持：
