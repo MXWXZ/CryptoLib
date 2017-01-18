@@ -20,9 +20,15 @@ Base64 UrlEncode(RFC3986)
 
 # 鸣谢
 在开发过程中，少不了下面的开源代码的支持：
+
 ulwanski：https://github.com/ulwanski/md5
+
 ulwanski：https://github.com/ulwanski/sha512
+
 vog：https://github.com/vog/sha1
+
 黑猫崽儿：http://blog.csdn.net/c_duoduo/article/details/43889759
+
 陈秋树：http://blog.sina.com.cn/s/blog_57dff12f0100d5sn.html
+
 liruda：http://blog.csdn.net/liruda/article/details/2254378
