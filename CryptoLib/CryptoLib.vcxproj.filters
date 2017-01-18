@@ -90,6 +90,9 @@
     <ClInclude Include="Include\Info\snbase.h">
       <Filter>头文件\Info</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Utils\bignum.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\stdafx.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Include\Info\snbase.cpp">
       <Filter>源文件\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Utils\bignum.cpp">
+      <Filter>源文件\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

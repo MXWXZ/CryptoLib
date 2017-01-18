@@ -11,6 +11,7 @@ int main()
 {
 	//注：在IDE中调试时GenerateFile由于路径问题可能会报错，注释或用绝对路径即可
 	_tsetlocale(LC_ALL, _T("chs"));
+
 	_tprintf(_T("CrytoLib库测试（UTF-8编码）\n---------------------------------------\n"));
 	//常用哈希
 	LPCTSTR str = _T("abc123中文");
@@ -60,7 +61,19 @@ int main()
 	_tprintf(_T("	CPU序列号：%s\n"), Info_CpuSN::GetSN().GetTString().c_str());
 	_tprintf(_T("	主板序列号：%s\n"), Info_BaseboardSN::GetSN().GetTString().c_str());
 	_tprintf(_T("	BIOS序列号：%s\n"), Info_BiosSN::GetSN().GetTString().c_str());
-	
+	_tprintf(_T("\n"));
+
+	_tprintf(_T("	stringx字符串库（测试字符串：abc123中文）：\n	-----------------------------\n"));
+	stringx t = "abc123中文";
+	_tprintf(_T("	转成tstring：%s\n"), t.GetTString().c_str());
+	_tprintf(_T("	转成utf8：%s\n"), t.Encode2UTF8().GetTString().c_str());
+	_tprintf(_T("\n"));
+
+	_tprintf(_T("	bignum大数库：\n	-----------------------------\n"));
+	bignum s = 2;
+	s ^= 200;
+	_tprintf(_T("	2^200=%s\n"), s.GetStr().GetTString().c_str());
+	_tprintf(_T("	(2^200)/37=%s\n"), (s / 37).GetStr().GetTString().c_str());
 	getchar();
     return 0;
 }

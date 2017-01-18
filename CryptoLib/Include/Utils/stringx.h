@@ -57,7 +57,6 @@ public:
 
 	void SetEncodeUTF8() { isutf8_ = true; }
 	void SetEncodeGBK()  { isutf8_ = false; }
-	bool IsEncodeUTF8() const { return isutf8_; }
 	stringx& SetString(SXCWCH ch, const UINT rep = 1);
 	stringx& SetString(SXCSTR src);
 	stringx& SetString(SXCWSTR src);
@@ -76,77 +75,29 @@ public:
 	int GetADataLength();
 	int GetWDataLength();
 
+	bool IsEncodeUTF8() const { return isutf8_; }
+	bool IsDigit() const;
+
 	void Empty();
 	bool IsEmpty() const;
 	SXULL GetLength() const;
 	SXWCH GetAt(const int index) const;
 	void SetAt(const int index, SXCWCH ch);
-	stringx& Append(SXCSTR src);
-	stringx& Append(SXCWSTR src);
-	stringx& Append(const string& src);
-	stringx& Append(const wstring& src);
 	stringx& Append(const stringx& src);
 	stringx& Append(SXCWCH ch, const UINT rep = 1);
 
 	SXWCH operator[] (const UINT index) const;
 	stringx& operator=(const stringx& src);
-	stringx& operator=(SXCWCH ch);
-	stringx& operator=(SXCSTR src);
-	stringx& operator=(SXCWSTR src);
-	stringx& operator=(const string& src);
-	stringx& operator=(const wstring& src);
 	stringx operator+(const stringx& src) const;
-	stringx operator+(SXCWCH ch) const;
-	stringx operator+(SXCSTR src) const;
-	stringx operator+(SXCWSTR src) const;
-	stringx operator+(const string& src) const;
-	stringx operator+(const wstring& src) const;
 	const stringx& operator+=(const stringx& src);
-	const stringx& operator+=(SXCWCH ch);
-	const stringx& operator+=(SXCSTR src);
-	const stringx& operator+=(SXCWSTR src);
-	const stringx& operator+=(const string& src);
-	const stringx& operator+=(const wstring& src);
 
-	int Compare(SXCSTR src) const;
-	int Compare(SXCWSTR src) const;
-	int Compare(const string& src) const;
-	int Compare(const wstring& src) const;
 	int Compare(const stringx& src) const;
-	int CompareNoCase(SXCSTR src) const;
-	int CompareNoCase(SXCWSTR src) const;
-	int CompareNoCase(const string& src) const;
-	int CompareNoCase(const wstring& src) const;
 	int CompareNoCase(const stringx& src) const;
-	bool operator == (SXCSTR src) const;
-	bool operator == (SXCWSTR src) const;
-	bool operator == (const string& src) const;
-	bool operator == (const wstring& src) const;
 	bool operator == (const stringx& src) const;
-	bool operator != (SXCSTR src) const;
-	bool operator != (SXCWSTR src) const;
-	bool operator != (const string& src) const;
-	bool operator != (const wstring& src) const;
 	bool operator != (const stringx& src) const;
-	bool operator <= (SXCSTR src) const;
-	bool operator <= (SXCWSTR src) const;
-	bool operator <= (const string& src) const;
-	bool operator <= (const wstring& src) const;
 	bool operator <= (const stringx& src) const;
-	bool operator <  (SXCSTR src) const;
-	bool operator <  (SXCWSTR src) const;
-	bool operator <  (const string& src) const;
-	bool operator <  (const wstring& src) const;
 	bool operator <  (const stringx& src) const;
-	bool operator >= (SXCSTR src) const;
-	bool operator >= (SXCWSTR src) const;
-	bool operator >= (const string& src) const;
-	bool operator >= (const wstring& src) const;
 	bool operator >= (const stringx& src) const;
-	bool operator >  (SXCSTR src) const;
-	bool operator >  (SXCWSTR src) const;
-	bool operator >  (const string& src) const;
-	bool operator >  (const wstring& src) const;
 	bool operator >  (const stringx& src) const;
 
 	stringx& MakeUpper();
@@ -157,16 +108,8 @@ public:
 	stringx Mid(UINT pos, int length) const;
 	stringx Right(UINT length) const;
 
-	int Find(SXWCH ch, const UINT pos = 0) const;
-	int Find(SXCSTR src, const UINT pos = 0) const;
-	int Find(SXCWSTR src, const UINT pos = 0) const;
-	int Find(const string& src, const UINT pos = 0) const;
-	int Find(const wstring& src, const UINT pos = 0) const;
 	int Find(const stringx& src, const UINT pos = 0) const;
-	int Replace(SXCSTR src, SXCSTR dest);
-	int Replace(SXCSTR src, SXCWSTR dest);
-	int Replace(SXCWSTR src, SXCWSTR dest);
-	int Replace(SXCWSTR src, SXCSTR dest);
+	int Replace(const stringx& src, const stringx& dest);
 	stringx& TrimRight();
 	stringx& TrimLeft();
 	int DeleteChar(SXWCH ch);

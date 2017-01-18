@@ -140,7 +140,21 @@ int stringx::GetADataLength() {
 }
 
 int stringx::GetWDataLength() {
-	return GetLength() + 1;
+	return (int)GetLength() + 1;
+}
+
+/************************************************************************
+判断是否是纯数字
+返回：true是 false 否
+************************************************************************/
+bool stringx::IsDigit() const {
+	for (UINT i = 0; i < (UINT)GetLength(); ++i) {
+		if (i == 0 && str_[i] == L'-')
+			continue;
+		if (str_[i] < L'0' || str_[i] > L'9')
+			return false;
+	}
+	return true;
 }
 
 /************************************************************************
@@ -188,20 +202,7 @@ void stringx::SetAt(const int index, SXCWCH ch) {
 参数：待添加字符串
 返回值：当前stringx对象
 ************************************************************************/
-stringx& stringx::Append(SXCSTR src) {
-	assert(src);
-
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(src)];
-	Str2WStr(src, wstr);
-	Append(wstr);
-	delete[] wstr;
-	wstr = NULL;
-	return *this;
-}
-stringx& stringx::Append(SXCWSTR src) { assert(src); str_.append(src); return *this; }
-stringx& stringx::Append(const string& src) { Append(src.c_str()); return *this; }
-stringx& stringx::Append(const wstring& src) { Append(src.c_str()); return *this; }
-stringx& stringx::Append(const stringx& src) { Append(src.GetWString()); return *this; }
+stringx& stringx::Append(const stringx& src) { str_.append(src.GetWString()); return *this; }
 stringx& stringx::Append(SXCWCH ch, const UINT rep /*= 1*/) { str_.append(rep, ch); return *this; }
 
 /************************************************************************
@@ -215,96 +216,29 @@ SXWCH stringx::operator[] (const UINT index) const {
 重载= + +=
 ************************************************************************/
 stringx& stringx::operator=(const stringx&  src) { SetString(src); return *this; }
-stringx& stringx::operator=(SXCWCH ch)			 { SetString(ch);  return *this; }
-stringx& stringx::operator=(SXCSTR src)			 { assert(src); SetString(src); return *this; }
-stringx& stringx::operator=(SXCWSTR src)		 { assert(src); SetString(src); return *this; }
-stringx& stringx::operator=(const string& src)	 { SetString(src); return *this; }
-stringx& stringx::operator=(const wstring& src)	 { SetString(src); return *this; }
-
 stringx stringx::operator+(const stringx&  src) const { stringx temp = *this; temp.Append(src); return temp; }
-stringx stringx::operator+(SXCWCH ch)			const { stringx temp = *this; temp.Append(ch);  return temp; }
-stringx stringx::operator+(SXCSTR src)			const { assert(src); stringx temp = *this; temp.Append(src); return temp; }
-stringx stringx::operator+(SXCWSTR src)			const { assert(src); stringx temp = *this; temp.Append(src); return temp; }
-stringx stringx::operator+(const string& src)	const { stringx temp = *this; temp.Append(src); return temp; }
-stringx stringx::operator+(const wstring& src)	const { stringx temp = *this; temp.Append(src); return temp; }
-
 const stringx& stringx::operator+=(const stringx&  src)	{ Append(src); return *this; }
-const stringx& stringx::operator+=(SXCWCH ch)			{ Append(ch);  return *this; }
-const stringx& stringx::operator+=(SXCSTR src)			{ assert(src); Append(src); return *this; }
-const stringx& stringx::operator+=(SXCWSTR src)			{ assert(src); Append(src); return *this; }
-const stringx& stringx::operator+=(const string& src)	{ Append(src); return *this; }
-const stringx& stringx::operator+=(const wstring& src)	{ Append(src); return *this; }
 
 /************************************************************************
 字符串比较
 src:待比较字符串
 ************************************************************************/
-int stringx::Compare(SXCSTR src) const {
-	assert(src);
-
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(src)];
-	Str2WStr(src, wstr);
-	int ret = Compare(wstr);
-	delete[] wstr;
-	wstr = NULL;
-	return ret;
-}
-int stringx::Compare(SXCWSTR src)		 const	{ assert(src); return str_.compare(src); }
-int stringx::Compare(const string& src)  const	{ return Compare(src.c_str()); }
-int stringx::Compare(const wstring& src) const	{ return Compare(src.c_str()); }
-int stringx::Compare(const stringx& src) const  { return Compare(src.GetWString()); }
+int stringx::Compare(const stringx& src) const  { return str_.compare(src.GetWString()); }
 
 /************************************************************************
 字符串忽视大小写比较
 src:待比较字符串
 ************************************************************************/
-int stringx::CompareNoCase(SXCSTR src) const {
-	assert(src);
-
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(src)];
-	Str2WStr(src, wstr);
-	int ret = CompareNoCase(wstr);
-	delete[] wstr;
-	wstr = NULL;
-	return ret;
-}
-int stringx::CompareNoCase(SXCWSTR src)		   const { assert(src); return _wcsicmp(str_.c_str(), src); }
-int stringx::CompareNoCase(const string& src)  const { return CompareNoCase(src.c_str()); }
-int stringx::CompareNoCase(const wstring& src) const { return CompareNoCase(src.c_str()); }
-int stringx::CompareNoCase(const stringx& src) const { return CompareNoCase(src.GetWString()); }
+int stringx::CompareNoCase(const stringx& src) const { return _wcsicmp(str_.c_str(), src.GetWString().c_str()); }
 
 /************************************************************************
 重载== != < <= > >=
 ************************************************************************/
-bool stringx::operator == (SXCSTR src)		   const { assert(src); return (Compare(src) == 0); };
-bool stringx::operator == (SXCWSTR src)		   const { assert(src); return (Compare(src) == 0); };
-bool stringx::operator == (const string& src)  const { return (Compare(src) == 0); };
-bool stringx::operator == (const wstring& src) const { return (Compare(src) == 0); };
 bool stringx::operator == (const stringx& src) const { return (Compare(src) == 0); };
-bool stringx::operator != (SXCSTR src)		   const { assert(src); return (Compare(src) != 0); };
-bool stringx::operator != (SXCWSTR src)		   const { assert(src); return (Compare(src) != 0); };
-bool stringx::operator != (const string& src)  const { return (Compare(src) != 0); };
-bool stringx::operator != (const wstring& src) const { return (Compare(src) != 0); };
 bool stringx::operator != (const stringx& src) const { return (Compare(src) != 0); };
-bool stringx::operator <= (SXCSTR src)		   const { assert(src); return (Compare(src) <= 0); };
-bool stringx::operator <= (SXCWSTR src)		   const { assert(src); return (Compare(src) <= 0); };
-bool stringx::operator <= (const string& src)  const { return (Compare(src) <= 0); };
-bool stringx::operator <= (const wstring& src) const { return (Compare(src) <= 0); };
 bool stringx::operator <= (const stringx& src) const { return (Compare(src) <= 0); };
-bool stringx::operator < (SXCSTR src)		   const { assert(src); return (Compare(src) < 0); };
-bool stringx::operator < (SXCWSTR src)		   const { assert(src); return (Compare(src) < 0); };
-bool stringx::operator < (const string& src)   const { return (Compare(src) < 0); };
-bool stringx::operator < (const wstring& src)  const { return (Compare(src) < 0); };
 bool stringx::operator < (const stringx& src)  const { return (Compare(src) < 0); };
-bool stringx::operator >= (SXCSTR src)		   const { assert(src); return (Compare(src) >= 0); };
-bool stringx::operator >= (SXCWSTR src)		   const { assert(src); return (Compare(src) >= 0); };
-bool stringx::operator >= (const string& src)  const { return (Compare(src) >= 0); };
-bool stringx::operator >= (const wstring& src) const { return (Compare(src) >= 0); };
 bool stringx::operator >= (const stringx& src) const { return (Compare(src) >= 0); };
-bool stringx::operator > (SXCSTR src)		   const { assert(src); return (Compare(src) > 0); };
-bool stringx::operator > (SXCWSTR src)		   const { assert(src); return (Compare(src) > 0); };
-bool stringx::operator > (const string& src)   const { return (Compare(src) > 0); };
-bool stringx::operator > (const wstring& src)  const { return (Compare(src) > 0); };
 bool stringx::operator > (const stringx& src)  const { return (Compare(src) > 0); };
 
 /************************************************************************
@@ -416,36 +350,11 @@ ch:查找字符
 pos:开始查找的位置
 返回值：-1不存在否则返回第一次出现位置
 ************************************************************************/
-int stringx::Find(SXWCH ch, const UINT pos /*= 0*/) const {
+int stringx::Find(const stringx& src, const UINT pos /*= 0*/) const {
 	if (pos < 0 || pos >= GetLength())
 		return -1;
-	return str_.find(ch, pos);
+	return str_.find(src.GetWString(), pos);
 }
-
-int stringx::Find(SXCSTR src, const UINT pos /*= 0*/) const {
-	assert(src);
-
-	if (pos < 0 || pos >= GetLength())
-		return -1;
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(src)];
-	Str2WStr(src, wstr);
-	int ret = str_.find(wstr, pos);
-	delete[] wstr;
-	wstr = NULL;
-	return ret;
-}
-
-int stringx::Find(SXCWSTR src, const UINT pos /*= 0*/) const {
-	assert(src);
-
-	if (pos < 0 || pos >= GetLength())
-		return -1;
-	return str_.find(src, pos);
-}
-
-int stringx::Find(const string& src, const UINT pos /*= 0*/)  const { return Find(src.c_str(), pos); }
-int stringx::Find(const wstring& src, const UINT pos /*= 0*/) const { return Find(src.c_str(), pos); }
-int stringx::Find(const stringx& src, const UINT pos /*= 0*/) const { return Find(src.GetWString(), pos); }
 
 /************************************************************************
 替换字符串
@@ -453,55 +362,16 @@ src:待替换字符串
 ch:待替换字符
 返回值：替换次数
 ************************************************************************/
-int stringx::Replace(SXCSTR src, SXCSTR dest) {
-	assert(src);
-	assert(dest);
-
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(dest)];
-	Str2WStr(dest, wstr);
-	int ret = Replace(src, wstr);
-	delete[] wstr;
-	wstr = NULL;
-	return ret;
-}
-
-int stringx::Replace(SXCSTR src, SXCWSTR dest) {
-	assert(src);
-	assert(dest);
-
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(src)];
-	Str2WStr(src, wstr);
-	int ret = Replace(wstr, dest);
-	delete[] wstr;
-	wstr = NULL;
-	return ret;
-}
-
-int stringx::Replace(SXCWSTR src, SXCWSTR dest) {
-	assert(src);
-	assert(dest);
-
+int stringx::Replace(const stringx& src, const stringx& dest) {
 	int ret = 0;
 	int pos = Find(src);
-	UINT len = wcslen(src);
-	UINT lendest = wcslen(dest);
+	UINT len = wcslen(src.GetData());
+	UINT lendest = wcslen(dest.GetData());
 	while (pos != -1) {
-		str_.replace(pos, len, dest);
+		str_.replace(pos, len, dest.GetWString());
 		pos = Find(src, pos + lendest);
 		ret++;
 	}
-	return ret;
-}
-
-int stringx::Replace(SXCWSTR src, SXCSTR dest) {
-	assert(src);
-	assert(dest);
-
-	SXWSTR wstr = new SXWCH[GetAWConvertLength(dest)];
-	Str2WStr(dest, wstr);
-	int ret = Replace(src, wstr);
-	delete[] wstr;
-	wstr = NULL;
 	return ret;
 }
 

@@ -45,6 +45,7 @@ SOFTWARE.
 #define CRYPTOLIB_ENABLE_INFO_BIOSSN	   0		//启用BIOS序列号获取模块
 
 #include "Utils\stringx.h"
+#include "Utils\bignum.h"
 #include "Info\snbase.h"
 
 #if (CRYPTOLIB_ENABLE_ALL_MODULES || CRYPTOLIB_ENABLE_HASH_MD5)
