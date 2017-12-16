@@ -1,14 +1,20 @@
+/**
+ * Copyright (c) 2017-2050
+ * All rights reserved.
+ *
+ * @Author:MXWXZ
+ * @Date:2017/12/16
+ *
+ * @Description:
+ */
 /************************************************************************
-本类为保证DLL安全，所有传入字符串（char*或wchar_t*）均需要初始化分配空间
-（new或数组）后再传入，所有函数均不检查长度是否足够，可以使用
-stringx::GetAWConvertLength或stringx::GetGUConvertLength
-GetADataLength\GetWDataLength等取得字符串转换所需长度，或使用足够大的空间。
-比如：
-wchar_t* wstr = new wchar[GetAWConvertLength(str)]; 
-wchar_t* wstr = new wchar[str.GetWDataLength()];
+WARNING:You MUST pre allocate the memory for any string buffer! All of the
+function will NOT check the space or other things.
+You can use
+GetA2WLength,GetW2ALength,GetG2ULength,GetU2GLength,GetADataLength or 
+GetWDataLength to get the length.
 
-本类默认为GBK编码，如果传入的字符串是UTF-8编码，请调用SetEncodeUTF8，以
-保证得到想要的结果
+Default encoding is GBK，if you want to use UTF-8，please call SetEncodeUTF8
 ************************************************************************/
 #pragma once
 
@@ -18,6 +24,7 @@ wchar_t* wstr = new wchar[str.GetWDataLength()];
 #include "windows.h"
 #include <sstream>
 
+namespace CryptoLib {
 typedef char SXCH;
 typedef const char SXCCH;
 typedef wchar_t SXWCH;
@@ -46,102 +53,127 @@ typedef SXCSTR SXCTSTR;
 
 class stringx {
 public:
-	stringx() {};
-	stringx(SXCWCH ch, const UINT rep = 1);
-	stringx(SXCSTR src);
-	stringx(SXCWSTR src);
-	stringx(const string& src);
-	stringx(const wstring& src);
-	stringx(const stringx& src);
-	~stringx() {};
+    stringx() {}
+    explicit stringx(SXCWCH ch, const UINT rep = 1);
+    stringx(LPCSTR src);
+    stringx(LPCWSTR src);
+    explicit stringx(const string& src);
+    explicit stringx(const wstring& src);
+    ~stringx() {}
 
-	void SetEncodeUTF8() { isutf8_ = true; }
-	void SetEncodeGBK()  { isutf8_ = false; }
-	stringx& SetString(SXCWCH ch, const UINT rep = 1);
-	stringx& SetString(SXCSTR src);
-	stringx& SetString(SXCWSTR src);
-	stringx& SetString(const string& src);
-	stringx& SetString(const wstring& src);
-	stringx& SetString(const stringx& src);
-	stringx& SetDigit(SXCULL digit);
-	string GetString() const;
-	wstring GetWString() const;
-	tstring GetTString() const;
-	SXCWSTR GetData() const;
-	SXSTR GetData(SXSTR out) const;
-	SXWSTR GetData(SXWSTR out) const;
-	SXULL GetDigit() const;
-	wstring& GetBuffer();
-	int GetADataLength();
-	int GetWDataLength();
+    void SetEncodeUTF8() { isutf8_ = true; }
+    void SetEncodeGBK() { isutf8_ = false; }
+    stringx& SetString(SXCWCH ch, const UINT rep = 1);
+    stringx& SetString(SXCSTR src);
+    stringx& SetString(SXCWSTR src);
+    stringx& SetString(const string& src);
+    stringx& SetString(const wstring& src);
+    stringx& SetString(const stringx& src);
+    /**
+     * digit to string
+     * @param    SXCULL digit:no more than 18446744073709551615
+     */
+    stringx& SetDigit(SXCULL digit);
 
-	bool IsEncodeUTF8() const { return isutf8_; }
-	bool IsDigit() const;
+    string GetString() const;
+    wstring GetWString() const;
+    tstring GetTString() const;
+    SXCWSTR GetData() const;
+    SXSTR GetData(SXSTR out) const;
+    SXWSTR GetData(SXWSTR out) const;
+    /**
+    * string to digit
+    * @return    SXULL digit,no more than 18446744073709551615
+    */
+    SXULL GetDigit() const;
+    wstring& GetBuffer();
+    int GetADataLength();
+    int GetWDataLength();
 
-	void Empty();
-	bool IsEmpty() const;
-	SXULL GetLength() const;
-	SXWCH GetAt(const int index) const;
-	void SetAt(const int index, SXCWCH ch);
-	stringx& Append(const stringx& src);
-	stringx& Append(SXCWCH ch, const UINT rep = 1);
+    bool IsEncodeUTF8() const { return isutf8_; }
+    bool IsDigit() const;
 
-	SXWCH operator[] (const UINT index) const;
-	stringx& operator=(const stringx& src);
-	stringx operator+(const stringx& src) const;
-	const stringx& operator+=(const stringx& src);
+    void Empty();
+    bool IsEmpty() const;
+    UINT GetLength() const;     // chinese character will be count 1
+    SXWCH GetAt(const UINT index) const;
+    void SetAt(const UINT index, SXCWCH ch);
+    stringx& Append(const stringx& src);
+    stringx& Append(SXCWCH ch, const UINT rep = 1);
 
-	int Compare(const stringx& src) const;
-	int CompareNoCase(const stringx& src) const;
-	bool operator == (const stringx& src) const;
-	bool operator != (const stringx& src) const;
-	bool operator <= (const stringx& src) const;
-	bool operator <  (const stringx& src) const;
-	bool operator >= (const stringx& src) const;
-	bool operator >  (const stringx& src) const;
+    SXWCH operator[] (const UINT index) const;
+    stringx& operator=(const stringx& src);
+    stringx operator+(const stringx& src) const;
+    const stringx& operator+=(const stringx& src);
 
-	stringx& MakeUpper();
-	stringx& MakeLower();
+    int Compare(const stringx& src) const;
+    int CompareNoCase(const stringx& src) const;
+    bool operator == (const stringx& src) const;
+    bool operator != (const stringx& src) const;
+    bool operator <= (const stringx& src) const;
+    bool operator <  (const stringx& src) const;
+    bool operator >= (const stringx& src) const;
+    bool operator >  (const stringx& src) const;
 
-	stringx SubStr(UINT from, UINT to) const;
-	stringx Left(UINT length) const;
-	stringx Mid(UINT pos, int length) const;
-	stringx Right(UINT length) const;
+    stringx& MakeUpper();
+    stringx& MakeLower();
 
-	int Find(const stringx& src, const UINT pos = 0) const;
-	int Replace(const stringx& src, const stringx& dest);
-	stringx& TrimRight();
-	stringx& TrimLeft();
-	int DeleteChar(SXWCH ch);
+    stringx SubStr(UINT from, UINT to) const;
+    stringx Left(UINT length) const;
+    stringx Mid(UINT pos, int length) const;
+    stringx Right(UINT length) const;
 
-	stringx& __cdecl Format(SXCWSTR str, ...);
+    int Find(const stringx& src, const UINT pos = 0) const;
+    int Replace(const stringx& src, const stringx& dest);
+    stringx& TrimRight();
+    stringx& TrimLeft();
+    int DeleteChar(SXWCH ch);
 
-	stringx& Encode2GBK();
-	stringx& Encode2UTF8();
+    stringx& __cdecl Format(SXCWSTR str, ...);
 
-	static int GetAWConvertLength(SXCSTR str);
-	static int GetAWConvertLength(SXCWSTR str);
-	static int GetGUConvertLength(SXCSTR str);
-	static int GetGUConvertLength(SXCWSTR str);
+    stringx& Encode2GBK();
+    stringx& Encode2UTF8();
+
+    /**
+     * MultiByte and WideChar convert length
+     * @return   safe length
+     * TIP:param SXCSTR will get its SXCWSTR convert result length
+     *     param SXCWSTR will get its SXCSTR convert result length
+     */
+    static int GetA2WLength(SXCSTR str, bool isutf8 = false);
+    static int GetW2ALength(SXCWSTR str, bool isutf8 = false);
+    /**
+    * GBK and UTF8 convert length
+    * @return   safe length
+    * TIP:param SXCSTR will get its SXCWSTR convert result length
+    *     param SXCWSTR will get its SXCSTR convert result length
+    */
+    static int GetG2ULength(SXCSTR str);
+    static int GetU2GLength(SXCSTR str);
+    static int GetG2ULength(SXCWSTR str);
+    static int GetU2GLength(SXCWSTR str);
 
 protected:
-	wstring str_;
-	bool isutf8_ = false;
+    wstring str_;
+    bool isutf8_ = false;
 
-	static int ToUpper(int c);
-	static int ToLower(int c);
+    static int ToUpper(int c);
+    static int ToLower(int c);
 
-	static SXSTR GBK2UTF8(SXCSTR str, SXSTR out);
-	static SXWSTR GBK2UTF8(SXCSTR str, SXWSTR out);
-	static SXSTR GBK2UTF8(SXCWSTR str, SXSTR out);
-	static SXWSTR GBK2UTF8(SXCWSTR str, SXWSTR out);
-	static SXSTR UTF82GBK(SXCSTR str, SXSTR out);
-	static SXWSTR UTF82GBK(SXCSTR str, SXWSTR out);
-	static SXSTR UTF82GBK(SXCWSTR str, SXSTR out);
-	static SXWSTR UTF82GBK(SXCWSTR str, SXWSTR out);
-	static SXWSTR Str2WStr(SXCSTR str, SXWSTR out);
-	static SXSTR WStr2Str(SXCWSTR str, SXSTR out);
+    static SXSTR GBK2UTF8(SXCSTR str, SXSTR out);
+    static SXWSTR GBK2UTF8(SXCSTR str, SXWSTR out);
+    static SXSTR GBK2UTF8(SXCWSTR str, SXSTR out);
+    static SXWSTR GBK2UTF8(SXCWSTR str, SXWSTR out);
+
+    static SXSTR UTF82GBK(SXCSTR str, SXSTR out);
+    static SXWSTR UTF82GBK(SXCSTR str, SXWSTR out);
+    static SXSTR UTF82GBK(SXCWSTR str, SXSTR out);
+    static SXWSTR UTF82GBK(SXCWSTR str, SXWSTR out);
+
+    static SXWSTR Str2WStr(SXCSTR str, SXWSTR out, bool isutf8 = false);
+    static SXSTR WStr2Str(SXCWSTR str, SXSTR out, bool isutf8 = false);
 };
 
 typedef stringx STRX;
 typedef const stringx CSTRX;
+}    // namespace CryptoLib
