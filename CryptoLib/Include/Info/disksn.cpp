@@ -5,7 +5,7 @@
 * @Author:MXWXZ
 * @Date:2017/12/17
 *
-* @Description:adapted from ³ÂÇïÊ÷ http://blog.sina.com.cn/s/blog_57dff12f0100d5sn.html
+* @Description:adapted from chengqiushu http://blog.sina.com.cn/s/blog_57dff12f0100d5sn.html
 */
 #include "stdafx.h"
 #include "disksn.h"

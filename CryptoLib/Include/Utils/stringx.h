@@ -14,7 +14,7 @@ You can use
 GetA2WLength,GetW2ALength,GetG2ULength,GetU2GLength,GetADataLength or 
 GetWDataLength to get the length.
 
-Default encoding is GBK£¬if you want to use UTF-8£¬please call SetEncodeUTF8
+Default encoding is GBKï¼Œif you want to use UTF-8ï¼Œplease call SetEncodeUTF8
 ************************************************************************/
 #pragma once
 
