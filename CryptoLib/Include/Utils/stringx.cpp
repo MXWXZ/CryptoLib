@@ -12,10 +12,10 @@
 
 namespace CryptoLib {
 stringx::stringx(SXCWCH ch, const UINT rep /*= 1*/) { SetString(ch, rep); }
-stringx::stringx(LPCSTR src) { SetString(src); }
-stringx::stringx(LPCWSTR src) { SetString(src); }
-stringx::stringx(const string& src) { SetString(src); }
-stringx::stringx(const wstring& src) { SetString(src); }
+stringx::stringx(LPCSTR src, bool isutf8/* = false*/) { isutf8_ = isutf8; SetString(src); }
+stringx::stringx(LPCWSTR src, bool isutf8/* = false*/) { isutf8_ = isutf8; SetString(src); }
+stringx::stringx(const string& src, bool isutf8/* = false*/) { isutf8_ = isutf8; SetString(src); }
+stringx::stringx(const wstring& src, bool isutf8/* = false*/) { isutf8_ = isutf8; SetString(src); }
 
 stringx& stringx::SetString(SXCWCH ch, const UINT rep /*= 1*/) {
     str_.assign(rep, ch);
@@ -62,7 +62,7 @@ stringx& stringx::SetDigit(SXCULL digit) {
 
 string stringx::GetString() const {
     SXSTR str = new SXCH[GetW2ALength(str_.c_str(), isutf8_)];
-    string ret = WStr2Str(str_.c_str(), str);
+    string ret = WStr2Str(str_.c_str(), str, isutf8_);
     delete[] str;
     str = NULL;
     return ret;
@@ -94,6 +94,40 @@ SXCWSTR stringx::GetData() const {
     return str_.c_str();
 }
 
+stringx stringx::GetGBKStr() const {
+    if (isutf8_) {
+        SXSTR tmp = new SXCH[GetU2GLength(str_.c_str())];
+        UTF82GBK(str_.c_str(), tmp);
+        SXWSTR tmp2 = new SXWCH[GetA2WLength(tmp)];
+        STRX ret = Str2WStr(tmp, tmp2);
+        ret.SetEncodeGBK();
+        delete[] tmp;
+        delete[] tmp2;
+        tmp = NULL;
+        tmp2 = NULL;
+        return ret;
+    } else {
+        return *this;
+    }
+}
+
+stringx stringx::GetUTF8Str() const {
+    if (!isutf8_) {
+        SXSTR tmp = new SXCH[GetG2ULength(str_.c_str())];
+        GBK2UTF8(str_.c_str(), tmp);
+        SXWSTR tmp2 = new SXWCH[GetA2WLength(tmp, true)];
+        STRX ret = Str2WStr(tmp, tmp2, true);
+        ret.SetEncodeUTF8();
+        delete[] tmp;
+        delete[] tmp2;
+        tmp = NULL;
+        tmp2 = NULL;
+        return ret;
+    } else {
+        return *this;
+    }
+}
+
 SXULL stringx::GetDigit() const {
     return wcstoull(str_.c_str(), NULL, 10);
 }
@@ -102,12 +136,12 @@ wstring& stringx::GetBuffer() {
     return str_;
 }
 
-int stringx::GetADataLength() {
-    return GetW2ALength(str_.c_str(), isutf8_);
+int stringx::GetADataLength() const {
+    return GetW2ALength(str_.c_str(), isutf8_) - 1;
 }
 
-int stringx::GetWDataLength() {
-    return (SXULL)GetLength() + 1;
+int stringx::GetWDataLength() const {
+    return GetLength();
 }
 
 bool stringx::IsDigit() const {
@@ -150,6 +184,8 @@ SXWCH stringx::operator[] (const UINT index) const {
 stringx& stringx::operator=(const stringx&  src) { SetString(src); return *this; }
 stringx stringx::operator+(const stringx&  src) const { stringx temp = *this; temp.Append(src); return temp; }
 const stringx& stringx::operator+=(const stringx&  src) { Append(src); return *this; }
+
+const stringx& stringx::operator+=(const SXCWCH src) { Append(src); return *this; }
 
 int stringx::Compare(const stringx& src) const { return str_.compare(src.GetWString()); }
 int stringx::CompareNoCase(const stringx& src) const { return _wcsicmp(str_.c_str(), src.GetWString().c_str()); }
@@ -312,21 +348,13 @@ stringx& stringx::Encode2UTF8() {
 ////////////////////////////////////////
 
 int stringx::GetA2WLength(SXCSTR str, bool isutf8/* = false*/) {
-    return MultiByteToWideChar(isutf8 ? CP_UTF8 : CP_ACP, 0, str,
-                               -1, NULL, 0);
+    return MultiByteToWideChar(isutf8 ? CP_UTF8 : CP_ACP, 0,
+                               str, -1, NULL, 0);
 }
 
 int stringx::GetW2ALength(SXCWSTR str, bool isutf8/* = false*/) {
     return WideCharToMultiByte(isutf8 ? CP_UTF8 : CP_ACP, 0, str,
                                -1, NULL, 0, NULL, NULL);
-}
-
-int stringx::GetG2ULength(SXCSTR str) {
-    return MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
-}
-
-int stringx::GetU2GLength(SXCSTR str) {
-    return MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
 }
 
 int stringx::GetG2ULength(SXCWSTR str) {
@@ -338,14 +366,14 @@ int stringx::GetU2GLength(SXCWSTR str) {
 }
 
 SXWSTR stringx::Str2WStr(SXCSTR str, SXWSTR out, bool isutf8/* = false*/) {
-    MultiByteToWideChar(isutf8 ? CP_UTF8 : CP_ACP, 0, str, -1, out,
-                        GetA2WLength(str, isutf8));
+    MultiByteToWideChar(isutf8 ? CP_UTF8 : CP_ACP, 0, str,
+                        -1, out, GetA2WLength(str, isutf8));
     return out;
 }
 
 SXSTR stringx::WStr2Str(SXCWSTR str, SXSTR out, bool isutf8/* = false*/) {
-    WideCharToMultiByte(isutf8 ? CP_UTF8 : CP_ACP, 0, str, -1,
-                        out, GetW2ALength(str, isutf8), NULL, NULL);
+    WideCharToMultiByte(isutf8 ? CP_UTF8 : CP_ACP, 0, str, -1, out,
+                        GetW2ALength(str, isutf8), NULL, NULL);
     return out;
 }
 

@@ -17,9 +17,9 @@ const int kMaxNumLength = 256;      // max digit length
 class bignum {
 public:
     bignum() {}
-    explicit bignum(const int64_t num);
+    bignum(const int64_t num);
     bignum(CSTRX str);
-    explicit bignum(const bignum& num);
+    bignum(const bignum& num);
     ~bignum() {}
     void Init();
 

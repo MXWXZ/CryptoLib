@@ -92,9 +92,9 @@ int64_t bignum::GetDigit() const {
 STRX bignum::GetStr() const {
     STRX ret;
     if (negative_)
-        ret += STRX(L'-');
+        ret += L'-';
     for (int i = len_ - 1; i >= 0; --i)
-        ret += STRX(num_[i] + L'0');
+        ret += num_[i] + L'0';
     return ret;
 }
 

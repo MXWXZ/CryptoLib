@@ -55,10 +55,10 @@ class stringx {
 public:
     stringx() {}
     explicit stringx(SXCWCH ch, const UINT rep = 1);
-    stringx(LPCSTR src);
-    stringx(LPCWSTR src);
-    explicit stringx(const string& src);
-    explicit stringx(const wstring& src);
+    stringx(LPCSTR src, bool isutf8 = false);
+    stringx(LPCWSTR src, bool isutf8 = false);
+    stringx(const string& src, bool isutf8 = false);
+    stringx(const wstring& src, bool isutf8 = false);
     ~stringx() {}
 
     void SetEncodeUTF8() { isutf8_ = true; }
@@ -81,14 +81,16 @@ public:
     SXCWSTR GetData() const;
     SXSTR GetData(SXSTR out) const;
     SXWSTR GetData(SXWSTR out) const;
+    stringx GetGBKStr() const;
+    stringx GetUTF8Str() const;
     /**
     * string to digit
     * @return    SXULL digit,no more than 18446744073709551615
     */
     SXULL GetDigit() const;
     wstring& GetBuffer();
-    int GetADataLength();
-    int GetWDataLength();
+    int GetADataLength() const;
+    int GetWDataLength() const;
 
     bool IsEncodeUTF8() const { return isutf8_; }
     bool IsDigit() const;
@@ -105,6 +107,7 @@ public:
     stringx& operator=(const stringx& src);
     stringx operator+(const stringx& src) const;
     const stringx& operator+=(const stringx& src);
+    const stringx& operator+=(const SXCWCH src);
 
     int Compare(const stringx& src) const;
     int CompareNoCase(const stringx& src) const;
@@ -142,14 +145,7 @@ public:
      */
     static int GetA2WLength(SXCSTR str, bool isutf8 = false);
     static int GetW2ALength(SXCWSTR str, bool isutf8 = false);
-    /**
-    * GBK and UTF8 convert length
-    * @return   safe length
-    * TIP:param SXCSTR will get its SXCWSTR convert result length
-    *     param SXCWSTR will get its SXCSTR convert result length
-    */
-    static int GetG2ULength(SXCSTR str);
-    static int GetU2GLength(SXCSTR str);
+
     static int GetG2ULength(SXCWSTR str);
     static int GetU2GLength(SXCWSTR str);
 
