@@ -98,7 +98,9 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"</Command>
+      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"
+xcopy /r /y /e "$(ProjectDir)Include" "$(SolutionDir)src\Include\"
+xcopy /r /y "$(TargetPath)" "$(SolutionDir)src\Lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,7 +116,9 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"</Command>
+      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"
+xcopy /r /y /e "$(ProjectDir)Include" "$(SolutionDir)src\Include\"
+xcopy /r /y "$(TargetPath)" "$(SolutionDir)src\Lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,7 +138,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"</Command>
+      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"
+xcopy /r /y /e "$(ProjectDir)Include" "$(SolutionDir)src\Include\"
+xcopy /r /y "$(TargetPath)" "$(SolutionDir)src\Lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +160,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"</Command>
+      <Command>xcopy /r /y "$(TargetPath)" "$(SolutionDir)bin\"
+xcopy /r /y /e "$(ProjectDir)Include" "$(SolutionDir)src\Include\"
+xcopy /r /y "$(TargetPath)" "$(SolutionDir)src\Lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

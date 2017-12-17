@@ -30,6 +30,7 @@
 
 /.vs/*
 /ipch/*
+/src/*
 *.tlog
 *.lastbuiltstate
 *.pdb
